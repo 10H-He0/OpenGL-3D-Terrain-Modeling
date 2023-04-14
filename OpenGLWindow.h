@@ -4,7 +4,19 @@
 
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
+#include <QMatrix4x4>
+#include <QMouseEvent>
+#include <QWheelEvent>
+#include <QKeyEvent>
+#include <QOpenGLShader>
+#include <QOpenGLShaderProgram>
 #include <QTimer>
+#include <QStandardPaths>>
+#include <QDebug>
+
+#define PI 3.1415926535
+#define img_width 15
+#define img_height 15
 
 class OpenGLWindow : public QOpenGLWidget, public QOpenGLFunctions
 {
@@ -13,13 +25,33 @@ class OpenGLWindow : public QOpenGLWidget, public QOpenGLFunctions
 public:
     OpenGLWindow(QWidget *parent = nullptr);
     ~OpenGLWindow();
+    void loadterrian();
+    GLfloat xtrans=0, ytrans=0, ztrans=0;
+    GLfloat xrot = 0, yrot=0, zrot = 0;
 
 private:
     void initializeGL() override;
     void resizeGL(int w, int h) override;
     void paintGL() override;
 
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *enent) override;
+    void wheelEvent(QWheelEvent *event) override;
+
 private:
-    QTimer Timer;
+    QOpenGLShaderProgram *program;
+
+    QMatrix4x4 model;
+    QMatrix4x4 view;
+    QMatrix4x4 projection;
+    unsigned int handle[3];
+
+    QVector2D mousePos;
+    QQuaternion rotation;
+
+    GLint terrian_index[img_height*img_width*3];
+    GLint terrian_pos[img_height*img_width][3];
+
+    QTimer *Timer;
 };
 #endif // OPENGLWINDOW_H
