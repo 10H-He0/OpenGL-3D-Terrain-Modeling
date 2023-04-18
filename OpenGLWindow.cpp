@@ -1,7 +1,7 @@
 #include "OpenGLWindow.h"
 #include "Terrian.h"
 
-Terrian terrian;
+Terrian terrian(0,0);
 
 OpenGLWindow::OpenGLWindow(QWidget *parent)
     : QOpenGLWidget(parent)
