@@ -11,7 +11,7 @@
 #include <QOpenGLShader>
 #include <QOpenGLShaderProgram>
 #include <QTimer>
-#include <QStandardPaths>>
+#include <QStandardPaths>
 #include <QDebug>
 
 #define PI 3.1415926535
@@ -48,9 +48,6 @@ private:
 
     QVector2D mousePos;
     QQuaternion rotation;
-
-    GLint terrian_index[img_height*img_width*3];
-    GLint terrian_pos[img_height*img_width][3];
 
     QTimer *Timer;
 };

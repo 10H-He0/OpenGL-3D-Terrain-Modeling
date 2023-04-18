@@ -10,11 +10,13 @@ CONFIG += c++17
 
 SOURCES += \
     OpenGLWindow.cpp \
+    Terrian.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     OpenGLWindow.h \
+    Terrian.h \
     mainwindow.h
 
 FORMS += \

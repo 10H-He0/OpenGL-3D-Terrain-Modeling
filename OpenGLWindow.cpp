@@ -1,4 +1,7 @@
 #include "OpenGLWindow.h"
+#include "Terrian.h"
+
+Terrian terrian;
 
 OpenGLWindow::OpenGLWindow(QWidget *parent)
     : QOpenGLWidget(parent)
@@ -38,7 +41,7 @@ void OpenGLWindow::initializeGL()
     glGenBuffers(3, handle);
 
     glBindBuffer(GL_ARRAY_BUFFER, handle[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(terrian_pos), terrian_pos, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(terrian.terrian_pos), terrian.terrian_pos, GL_STATIC_DRAW);
 
     GLuint vPosition = program->attributeLocation("VertexPosition");
     glEnableVertexAttribArray(vPosition);
@@ -81,7 +84,7 @@ void OpenGLWindow::paintGL()
 
     for (int s=0; s<img_width-2; s++)
     {
-        glDrawElements(GL_TRIANGLE_STRIP, img_width*2, GL_UNSIGNED_INT, &terrian_index[img_width*s*2]);
+        glDrawElements(GL_TRIANGLE_STRIP, img_width*2, GL_UNSIGNED_INT, &terrian.terrian_index[img_width*s*2]);
     }
     qDebug() << "paintGL";
 }
@@ -130,18 +133,18 @@ void OpenGLWindow::loadterrian()
     int index1=0;
     for(int i=0;i<img_width*img_height*2;i++)
     {
-        terrian_index[index1++]=i;
-        terrian_index[index1++]=i+img_width;
+        terrian.terrian_index[index1++]=i;
+        terrian.terrian_index[index1++]=i+img_width;
     }
 
     for(int j=img_width-1;j>=0;j--)
     {
         for(int i=0;i<=img_width-1;i++)
         {
-            terrian_pos[img_height*(img_width-1-j)+i][0]=i;
+            terrian.terrian_pos[img_height*(img_width-1-j)+i][0]=i;
             QColor color=heightmap.pixel(i,j);
-            terrian_pos[img_height*(img_width-1-j)+i][1]=color.red()/25;
-            terrian_pos[img_height*(img_width-1-j)+i][2]=-(img_width-1-j);
+            terrian.terrian_pos[img_height*(img_width-1-j)+i][1]=color.red()/25;
+            terrian.terrian_pos[img_height*(img_width-1-j)+i][2]=-(img_width-1-j);
         }
     }
 }
