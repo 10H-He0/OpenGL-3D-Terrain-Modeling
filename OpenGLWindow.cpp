@@ -22,7 +22,7 @@ void OpenGLWindow::initializeGL()
     QOpenGLShader *fshader = new QOpenGLShader(QOpenGLShader::Fragment, this);
     fshader->compileSourceFile("D:/code/OpenGL-3D-Terrain-Modeling/shader/frag.frag");
 
-    loadterrian();
+    terrian.loadterrian();
     //qDebug() << "load end";
     program = new QOpenGLShaderProgram();
     program->addShader(vshader);
@@ -41,12 +41,12 @@ void OpenGLWindow::initializeGL()
     glGenBuffers(3, handle);
 
     glBindBuffer(GL_ARRAY_BUFFER, handle[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(terrian.terrian_pos), terrian.terrian_pos, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(terrian.afterloop_pos), terrian.afterloop_pos, GL_STATIC_DRAW);
 
     GLuint vPosition = program->attributeLocation("VertexPosition");
     glEnableVertexAttribArray(vPosition);
     glBindBuffer(GL_ARRAY_BUFFER, handle[0]);
-    glVertexAttribPointer((GLuint)0, 3, GL_INT, GL_FALSE, 3*sizeof(GLint), 0);
+    glVertexAttribPointer((GLuint)0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(GLfloat), 0);
 
     model.setToIdentity();
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -82,11 +82,11 @@ void OpenGLWindow::paintGL()
 
     program->bind();
 
-    for (int s=0; s<img_width-2; s++)
+    int tmp = img_width * 2 - 1;
+    for (int s=0; s<tmp-1; s++)
     {
-        glDrawElements(GL_TRIANGLE_STRIP, img_width*2, GL_UNSIGNED_INT, &terrian.terrian_index[img_width*s*2]);
+        glDrawElements(GL_TRIANGLES, (tmp-1)*6, GL_UNSIGNED_INT, &terrian.triangles[(tmp-1)*6*s]);
     }
-    qDebug() << "paintGL";
 }
 
 void OpenGLWindow::mousePressEvent(QMouseEvent *event)
@@ -104,8 +104,8 @@ void OpenGLWindow::mouseMoveEvent(QMouseEvent *event)
 
         if (diff.x() > 0) yrot = 30.0f * PI / 180;
         else yrot = -30.0f * PI / 180;
-//        if (diff.y() > 0) xrot = 30.f * PI / 180;
-//        else xrot = -30.0f * PI / 180;
+        //        if (diff.y() > 0) xrot = 30.f * PI / 180;
+        //        else xrot = -30.0f * PI / 180;
         mousePos = newPos;
         this->update();
     }
@@ -125,26 +125,4 @@ void OpenGLWindow::wheelEvent(QWheelEvent *event)
     event->accept();
 }
 
-void OpenGLWindow::loadterrian()
-{
-    QImage heightmap;
-    heightmap.load("D:/code/OpenGL-3D-Terrain-Modeling/heightmap.png");
 
-    int index1=0;
-    for(int i=0;i<img_width*img_height*2;i++)
-    {
-        terrian.terrian_index[index1++]=i;
-        terrian.terrian_index[index1++]=i+img_width;
-    }
-
-    for(int j=img_width-1;j>=0;j--)
-    {
-        for(int i=0;i<=img_width-1;i++)
-        {
-            terrian.terrian_pos[img_height*(img_width-1-j)+i][0]=i;
-            QColor color=heightmap.pixel(i,j);
-            terrian.terrian_pos[img_height*(img_width-1-j)+i][1]=color.red()/25;
-            terrian.terrian_pos[img_height*(img_width-1-j)+i][2]=-(img_width-1-j);
-        }
-    }
-}

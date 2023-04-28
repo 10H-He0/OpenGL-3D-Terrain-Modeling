@@ -11,12 +11,16 @@ CONFIG += c++17
 SOURCES += \
     OpenGLWindow.cpp \
     Terrian.cpp \
+    TriMesh.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    HalfEdgeStruct.h \
     OpenGLWindow.h \
     Terrian.h \
+    TriMesh.h \
+    Utilize.h \
     mainwindow.h
 
 FORMS += \

@@ -25,7 +25,6 @@ class OpenGLWindow : public QOpenGLWidget, public QOpenGLFunctions
 public:
     OpenGLWindow(QWidget *parent = nullptr);
     ~OpenGLWindow();
-    void loadterrian();
     GLfloat xtrans=0, ytrans=0, ztrans=0;
     GLfloat xrot = 0, yrot=0, zrot = 0;
 
