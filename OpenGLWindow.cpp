@@ -1,5 +1,6 @@
 #include "OpenGLWindow.h"
 #include "Terrian.h"
+#include "QVector3D"
 
 Terrian terrian(0,0);
 
@@ -8,7 +9,12 @@ OpenGLWindow::OpenGLWindow(QWidget *parent)
 {
 
 }
-
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
+QVector3D cameraPos   = QVector3D(0.0f, 0.0f, 3.0f);
+QVector3D cameraFront = QVector3D(0.0f, 0.0f, -1.0f);
+QVector3D cameraUp    = QVector3D(0.0f, 1.0f, 0.0f);
+float cameraSpeed = static_cast<float>(2.5 * deltaTime);
 OpenGLWindow::~OpenGLWindow()
 {}
 
@@ -65,7 +71,6 @@ void OpenGLWindow::resizeGL(int w, int h)
 
 void OpenGLWindow::paintGL()
 {
-
     model.rotate(xrot, 1.0, 0.0, 0.0);
     model.rotate(yrot, 0.0, 1.0, 0.0);
     model.translate(xtrans, ytrans, ztrans);
@@ -125,4 +130,27 @@ void OpenGLWindow::wheelEvent(QWheelEvent *event)
     event->accept();
 }
 
+void keyPressEvent(QKeyEvent*event)
+{
 
+    switch (event->key()) {
+    case Qt::Key_W:
+        cameraPos += cameraFront * cameraSpeed;
+        break;
+    case Qt::Key_S:
+        cameraPos -= cameraFront * cameraSpeed;
+        break;
+    case Qt::Key_A:
+        cameraPos -=/* QVector3D::normalize*/(QVector3D::crossProduct(cameraFront, cameraUp)).normalized() * cameraSpeed;
+        break;
+    case Qt::Key_D:
+        cameraPos += (QVector3D::crossProduct(cameraFront, cameraUp)).normalized() * cameraSpeed;
+        break;
+    default:
+        break;
+    }
+    QMatrix4x4 view ;
+    view.lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadMatrixf( view.data()/*glm::value_ptr(view)*/);
+}
