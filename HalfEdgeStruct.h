@@ -1,4 +1,3 @@
-
 #ifndef HALFEDGESTRUCT_H
 #define HALFEDGESTRUCT_H
 #include "Utilize.h"

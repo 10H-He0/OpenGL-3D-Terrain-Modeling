@@ -1,4 +1,3 @@
-
 #ifndef TRIMESH_H
 #define TRIMESH_H
 #include <assert.h>

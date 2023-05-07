@@ -10,6 +10,8 @@ CONFIG += c++17
 
 SOURCES += \
     OpenGLWindow.cpp \
+    QuadTree.cpp \
+    QuadTreeNode.cpp \
     Terrian.cpp \
     TriMesh.cpp \
     main.cpp \
@@ -18,6 +20,8 @@ SOURCES += \
 HEADERS += \
     HalfEdgeStruct.h \
     OpenGLWindow.h \
+    QuadTree.h \
+    QuadTreeNode.h \
     Terrian.h \
     TriMesh.h \
     Utilize.h \
