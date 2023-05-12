@@ -4,7 +4,7 @@
 
 
 
-#define HEIGHTMAP_SIZE 2
+#define HEIGHTMAP_SIZE 4
 
 class QuadTreeNode {
 public:

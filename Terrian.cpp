@@ -18,26 +18,56 @@ Terrian::~Terrian()
 void Terrian::loadterrian()
 {
     quadTree=new QuadTree();
+
     QImage heightmap;
-    heightmap.load("D:/code/OpenGL-3D-Terrain-Modeling/heightmap.png");
-    //heightmap.load("D:/Study/SoftwareEngineering/Design/OpenGL-3D-Terrain-Modeling/heightmap.png");
+    //heightmap.load("D:/code/OpenGL-3D-Terrain-Modeling/heightmap.png");
+    heightmap.load("D:/Study/SoftwareEngineering/Design/OpenGL-3D-Terrain-Modeling/heightmap.png");
     quadTree->initialize(heightmap);
+    //printf("%d\n",quadTree->root->heightmap[0][0]);
     for(int i=0;i<img_width*(img_height - 1);i++)
     {
         terrian_index[index++]=i;
         terrian_index[index++]=i+img_width;
     }
 
+
+
     for(int j=img_width-1;j>=0;j--)
     {
         for(int i=0;i<=img_width-1;i++)
         {
             terrian_pos[img_height*(img_width-1-j)+i][0]=i;
-            QColor color=heightmap.pixel(i,j);
-            terrian_pos[img_height*(img_width-1-j)+i][1]=color.red()/25;
+            //            QColor color=heightmap.pixel(i,j);
+            //            terrian_pos[img_height*(img_width-1-j)+i][1]=color.red()/25;
+
+
+
+            //            int height=quadTree->root->heightmap[i][j];
+            //            terrian_pos[img_height*(img_width-1-j)+i][1]=height/25;
+
+            //           printf("%d %d\n",color.red(),height);
             terrian_pos[img_height*(img_width-1-j)+i][2]=-(img_width-1-j);
         }
     }
+    quadTree->drawNode(0,0,(img_width+1)/2,quadTree->root,terrian_pos);
+
+    //    for(int j=img_width-1;j>=0;j--)
+    //    {
+    //        for(int i=0;i<=img_width-1;i++)
+    //        {
+    //           printf("%3d",terrian_pos[img_height*(img_width-1-j)+i][1]);
+    //        }
+    //        printf("\n");
+    //    }
+
+    //    printf("\n");
+    //    for(int i=0; i<img_width; i++){
+    //        for(int j=0; j<img_width; j++){
+
+    //           printf("%3d ", terrian_pos[i][j][1]);
+    //        }
+    //        printf("\n");
+    //    }
 
     loop();
     for (int i = 0; i < vertexs.size(); i++)
