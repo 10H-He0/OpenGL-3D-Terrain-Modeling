@@ -19,8 +19,8 @@ void Terrian::loadterrian()
 {
     quadTree=new QuadTree();
     QImage heightmap;
-    //heightmap.load("D:/code/OpenGL-3D-Terrain-Modeling/heightmap.png");
-    heightmap.load("D:/Study/SoftwareEngineering/Design/OpenGL-3D-Terrain-Modeling/heightmap.png");
+    heightmap.load("D:/code/OpenGL-3D-Terrain-Modeling/heightmap.png");
+    //heightmap.load("D:/Study/SoftwareEngineering/Design/OpenGL-3D-Terrain-Modeling/heightmap.png");
     quadTree->initialize(heightmap);
     for(int i=0;i<img_width*(img_height - 1);i++)
     {

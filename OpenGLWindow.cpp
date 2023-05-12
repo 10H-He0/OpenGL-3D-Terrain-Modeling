@@ -7,14 +7,9 @@ Terrian terrian(0,0);
 OpenGLWindow::OpenGLWindow(QWidget *parent)
     : QOpenGLWidget(parent)
 {
-
+    this->grabKeyboard();
+    this->setFocusPolicy(Qt::StrongFocus);
 }
-float deltaTime = 0.0f;
-float lastFrame = 0.0f;
-QVector3D cameraPos   = QVector3D(0.0f, 0.0f, 3.0f);
-QVector3D cameraFront = QVector3D(0.0f, 0.0f, -1.0f);
-QVector3D cameraUp    = QVector3D(0.0f, 1.0f, 0.0f);
-float cameraSpeed = static_cast<float>(2.5 * deltaTime);
 OpenGLWindow::~OpenGLWindow()
 {}
 
@@ -25,12 +20,12 @@ void OpenGLWindow::initializeGL()
     qDebug() << QStandardPaths::standardLocations(QStandardPaths::AppDataLocation);
     QOpenGLShader *vshader = new QOpenGLShader(QOpenGLShader::Vertex, this);
 
-    //vshader->compileSourceFile("D:/code/OpenGL-3D-Terrain-Modeling/shader/vert.vert");
-    vshader->compileSourceFile("D:/Study/SoftwareEngineering/Design/OpenGL-3D-Terrain-Modeling/shader/vert.vert");
+    vshader->compileSourceFile("D:/code/OpenGL-3D-Terrain-Modeling/shader/vert.vert");
+    //vshader->compileSourceFile("D:/Study/SoftwareEngineering/Design/OpenGL-3D-Terrain-Modeling/shader/vert.vert");
     QOpenGLShader *fshader = new QOpenGLShader(QOpenGLShader::Fragment, this);
 
-    //fshader->compileSourceFile("D:/code/OpenGL-3D-Terrain-Modeling/shader/frag.frag");
-    fshader->compileSourceFile("D:/Study/SoftwareEngineering/Design/OpenGL-3D-Terrain-Modeling/shader/frag.frag");
+    fshader->compileSourceFile("D:/code/OpenGL-3D-Terrain-Modeling/shader/frag.frag");
+    //fshader->compileSourceFile("D:/Study/SoftwareEngineering/Design/OpenGL-3D-Terrain-Modeling/shader/frag.frag");
 
     terrian.loadterrian();
     //qDebug() << "load end";
@@ -42,7 +37,7 @@ void OpenGLWindow::initializeGL()
     program->bind();
 
     view.setToIdentity();
-    view.lookAt(QVector3D(6, 0.5, 0), QVector3D(6, 0.5, -1), QVector3D(0, 1, 0));
+    view.lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 
     glClearColor(0.5f, 0.5f, 1.0f, 1);
     glEnable(GL_DEPTH_TEST);
@@ -78,6 +73,9 @@ void OpenGLWindow::paintGL()
     model.rotate(xrot, 1.0, 0.0, 0.0);
     model.rotate(yrot, 0.0, 1.0, 0.0);
     model.translate(xtrans, ytrans, ztrans);
+    view.setToIdentity();
+    qDebug() << cameraPos << '\n';
+    view.lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 
     xtrans=0;
     ytrans=0;
@@ -134,9 +132,8 @@ void OpenGLWindow::wheelEvent(QWheelEvent *event)
     event->accept();
 }
 
-void keyPressEvent(QKeyEvent*event)
+void OpenGLWindow::keyPressEvent(QKeyEvent* event)
 {
-
     switch (event->key()) {
     case Qt::Key_W:
         cameraPos += cameraFront * cameraSpeed;
@@ -145,7 +142,7 @@ void keyPressEvent(QKeyEvent*event)
         cameraPos -= cameraFront * cameraSpeed;
         break;
     case Qt::Key_A:
-        cameraPos -=/* QVector3D::normalize*/(QVector3D::crossProduct(cameraFront, cameraUp)).normalized() * cameraSpeed;
+        cameraPos -=(QVector3D::crossProduct(cameraFront, cameraUp)).normalized() * cameraSpeed;
         break;
     case Qt::Key_D:
         cameraPos += (QVector3D::crossProduct(cameraFront, cameraUp)).normalized() * cameraSpeed;
@@ -153,8 +150,6 @@ void keyPressEvent(QKeyEvent*event)
     default:
         break;
     }
-    QMatrix4x4 view ;
-    view.lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadMatrixf( view.data()/*glm::value_ptr(view)*/);
+    this->update();
+    event->accept();
 }
