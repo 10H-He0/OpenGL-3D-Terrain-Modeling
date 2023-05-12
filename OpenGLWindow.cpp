@@ -21,11 +21,11 @@ void OpenGLWindow::initializeGL()
     QOpenGLShader *vshader = new QOpenGLShader(QOpenGLShader::Vertex, this);
 
     //vshader->compileSourceFile("D:/code/OpenGL-3D-Terrain-Modeling/shader/vert.vert");
-    vshader->compileSourceFile("D:/Study/SoftwareEngineering/Design/OpenGL-3D-Terrain-Modeling/shader/vert.vert");
+    vshader->compileSourceFile("D:/gittest/test_c/3d/OpenGL-3D-Terrain-Modeling/shader/vert.vert");
     QOpenGLShader *fshader = new QOpenGLShader(QOpenGLShader::Fragment, this);
 
     //fshader->compileSourceFile("D:/code/OpenGL-3D-Terrain-Modeling/shader/frag.frag");
-    fshader->compileSourceFile("D:/Study/SoftwareEngineering/Design/OpenGL-3D-Terrain-Modeling/shader/frag.frag");
+    fshader->compileSourceFile("D:/gittest/test_c/3d/OpenGL-3D-Terrain-Modeling/shader/frag.frag");
 
     terrian.loadterrian();
     //qDebug() << "load end";
@@ -132,24 +132,31 @@ void OpenGLWindow::wheelEvent(QWheelEvent *event)
     event->accept();
 }
 
-void OpenGLWindow::keyPressEvent(QKeyEvent* event)
+void OpenGLWindow::keyPressEvent(QKeyEvent *event)
 {
+
     switch (event->key()) {
     case Qt::Key_W:
-        cameraPos += cameraFront * cameraSpeed;
+        cameraPos += cameraSpeed * cameraFront;
         break;
     case Qt::Key_S:
-        cameraPos -= cameraFront * cameraSpeed;
+        cameraPos -= cameraSpeed * cameraFront;
         break;
     case Qt::Key_A:
-        cameraPos -=(QVector3D::crossProduct(cameraFront, cameraUp)).normalized() * cameraSpeed;
+        cameraPos -= QVector3D::crossProduct(cameraFront, cameraUp).normalized() * cameraSpeed;
         break;
     case Qt::Key_D:
-        cameraPos += (QVector3D::crossProduct(cameraFront, cameraUp)).normalized() * cameraSpeed;
+        cameraPos += QVector3D::crossProduct(cameraFront, cameraUp).normalized() * cameraSpeed;
+        break;
+    case Qt::Key_Q:
+        cameraPos += cameraSpeed * cameraUp;
+        break;
+    case Qt::Key_E:
+        cameraPos -= cameraSpeed * cameraUp;
         break;
     default:
         break;
     }
-    this->update();
+    this->update();   
     event->accept();
 }
