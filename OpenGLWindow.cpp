@@ -21,11 +21,11 @@ void OpenGLWindow::initializeGL()
     QOpenGLShader *vshader = new QOpenGLShader(QOpenGLShader::Vertex, this);
 
     //vshader->compileSourceFile("D:/code/OpenGL-3D-Terrain-Modeling/shader/vert.vert");
-    vshader->compileSourceFile("D:/gittest/test_c/3d/OpenGL-3D-Terrain-Modeling/shader/vert.vert");
+    vshader->compileSourceFile("D:/gittest/test_c/3d(1)/OpenGL-3D-Terrain-Modeling/shader/vert.vert");
     QOpenGLShader *fshader = new QOpenGLShader(QOpenGLShader::Fragment, this);
 
     //fshader->compileSourceFile("D:/code/OpenGL-3D-Terrain-Modeling/shader/frag.frag");
-    fshader->compileSourceFile("D:/gittest/test_c/3d/OpenGL-3D-Terrain-Modeling/shader/frag.frag");
+    fshader->compileSourceFile("D:/gittest/test_c/3d(1)/OpenGL-3D-Terrain-Modeling/shader/frag.frag");
 
     terrian.loadterrian();
     //qDebug() << "load end";

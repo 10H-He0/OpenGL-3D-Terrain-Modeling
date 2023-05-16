@@ -3,8 +3,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
-
+#include <QString>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -18,9 +17,14 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+public slots:
+    void openFileExplorerAndSelectFile();
 
 private:
     Ui::MainWindow *ui;
+
+    QString selectedFilePath;
+
 };
 
 #endif // MAINWINDOW_H
