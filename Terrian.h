@@ -20,10 +20,11 @@ public :
     void loop();
     void loadterrian();
 
+    static QString FilePath;
+
 private :
     float minHeight;
     float maxHeight;
     int index;
 };
-
 #endif // TERRIAN_H

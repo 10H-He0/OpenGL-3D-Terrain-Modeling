@@ -19,14 +19,14 @@ void Terrian::loadterrian()
 {
     quadTree=new QuadTree();
     QImage heightmap;
-    //heightmap.load("D:/code/OpenGL-3D-Terrain-Modeling/heightmap.png");
-    heightmap.load("D:/gittest/test_c/3d(1)/OpenGL-3D-Terrain-Modeling/heightmap.png");
+    heightmap.load("D:/code/OpenGL-3D-Terrain-Modeling/heightmap.png");
+    //heightmap.load("D:/gittest/test_c/3d(1)/OpenGL-3D-Terrain-Modeling/heightmap.png");
 
 //注释部分为未经过调试的打开文件方式
-//if(!selectedFilePath.isEmpty())
-//{
-//heightmap.load(selectedFilePath);
-//}
+//    if(!Terrian::FilePath.isEmpty())
+//    {
+//        heightmap.load(Terrian::FilePath);
+//    }
 
     quadTree->initialize(heightmap);
     //printf("%d\n",quadTree->root->heightmap[0][0]);

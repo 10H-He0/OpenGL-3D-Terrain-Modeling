@@ -7,6 +7,8 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include<QFileDialog>
+#include "Terrian.h"
+QString Terrian::FilePath = "";
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -36,7 +38,8 @@ void MainWindow::openFileExplorerAndSelectFile()
     if(!filePath.isEmpty())
     {
         selectedFilePath=filePath;
+        Terrian::FilePath = selectedFilePath;
 
-        ui->labelFilePath->setText(selectedFilePath);
+        ui->labelFilePath->setText(Terrian::FilePath);
     }
 }
