@@ -2,6 +2,11 @@
 #include "TriMesh.h"
 #include "QuadTree.h"
 #include "QuadTreeNode.h"
+#include"CollapseCost.h"
+#include "Utilize.h"
+#include "Vertex_f.h"
+#include "Config.h"
+#include "VertexSet.h"
 using namespace MeshLib;
 QuadTree *quadTree;
 Terrian::Terrian(float minheight, float maxheight)
@@ -18,16 +23,10 @@ Terrian::~Terrian()
 void Terrian::loadterrian()
 {
     quadTree=new QuadTree();
+
     QImage heightmap;
     heightmap.load("D:/code/OpenGL-3D-Terrain-Modeling/heightmap.png");
-    //heightmap.load("D:/gittest/test_c/3d(1)/OpenGL-3D-Terrain-Modeling/heightmap.png");
-
-//注释部分为未经过调试的打开文件方式
-//    if(!Terrian::FilePath.isEmpty())
-//    {
-//        heightmap.load(Terrian::FilePath);
-//    }
-
+    //heightmap.load("E:/SSEproject/zzk/heightmap.png");
     quadTree->initialize(heightmap);
     //printf("%d\n",quadTree->root->heightmap[0][0]);
     for(int i=0;i<img_width*(img_height - 1);i++)
@@ -82,6 +81,7 @@ void Terrian::loadterrian()
         afterloop_pos[i][1] = vertexs[i].y;
         afterloop_pos[i][2] = vertexs[i].z;
     }
+    simplify();
 }
 
 void Terrian::loop()
@@ -115,6 +115,7 @@ void Terrian::loop()
     mesh->read_new(points,triVec);
     TriMesh* newMesh = new TriMesh();
     newMesh = TriMesh::create_subDivisionMesh(mesh);
+    trimesh = newMesh;
 
     vertexs.clear();
     triangles.clear();
@@ -131,5 +132,48 @@ void Terrian::loop()
             he = he->next;
         } while(he != f->halfEdge);
 
+    }
+}
+void Terrian::simplify(){
+    VertexSet *myset = new VertexSet();
+    auto vecs = trimesh->Vertexs();
+    myset->facecont=triangles.size()/3;
+    myset->resarray.clear();
+    for (int i = 0; i < vecs.size(); i++){
+        Vertex_f* dot = new Vertex_f();
+        myset->addVertex(*dot);
+        dot->id=vecs[i]->id;
+        dot->connectVertexes.clear();
+        dot->pos=vecs[i]->vcoord;
+        dot->isBoundary=vecs[i]->isBoundary;
+        myset->group[dot->id]=*dot;
+    }
+    int opcount = myset->cntVertex/3;//简化次数
+    myset->readtriangle(triangles);
+    myset->addneighborFace();
+    CollapseCost *mycost=new CollapseCost();
+    mycost->initinfo();
+    mycost->initcost(myset);
+    for (int i = 0; i < opcount; i++) {
+        CostInfo rescost = mycost->findleastcost(myset);
+        myset->collapseEdge(rescost.dot_id[0], rescost.dot_id[1]);
+        mycost->updatecost(myset, rescost.dot_id[0], rescost.dot_id[1]);
+
+    }
+    myset->outputtriangle();
+    for (int i = 0; i < myset->out_facecont * 3; i += 3)
+    {
+        simplifyTriangles.emplace_back(myset->resarray[i]);
+        simplifyTriangles.emplace_back(myset->resarray[i+1]);
+        simplifyTriangles.emplace_back(myset->resarray[i+2]);
+    }
+    for (int i = 0; i < myset->out_facecont * 3;i += 3) {
+        cout << myset->resarray[i] << " "<<  myset->resarray[i+1] << " "<< myset->resarray[i+2] << endl;
+    }
+    //   cout<<myset->cntVertex<<endl;
+    for(int i=0;i<myset->cntVertex;i++){
+        if(myset->isDeleted[i]){
+            cout<<myset->group[i].id<<endl;
+        }
     }
 }

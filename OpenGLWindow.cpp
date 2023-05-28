@@ -74,7 +74,7 @@ void OpenGLWindow::paintGL()
     model.rotate(yrot, 0.0, 1.0, 0.0);
     model.translate(xtrans, ytrans, ztrans);
     view.setToIdentity();
-    qDebug() << cameraPos << '\n';
+    //qDebug() << cameraPos << '\n';
     view.lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 
     xtrans=0;
@@ -89,10 +89,19 @@ void OpenGLWindow::paintGL()
 
     program->bind();
 
-    int tmp = img_width * 2 - 1;
-    for (int s=0; s<tmp-1; s++)
+    int tmp = 0;
+    if (cameraPos.z() <= 5.0f)
     {
-        glDrawElements(GL_TRIANGLES, (tmp-1)*6, GL_UNSIGNED_INT, &terrian.triangles[(tmp-1)*6*s]);
+        tmp = img_width * 2 - 1;
+        for (int s=0; s<tmp-1; s++)
+        {
+            glDrawElements(GL_TRIANGLES, (tmp-1)*6, GL_UNSIGNED_INT, &terrian.triangles[(tmp-1)*6*s]);
+        }
+    }
+    else
+    {
+        tmp = terrian.simplifyTriangles.size();
+        glDrawElements(GL_TRIANGLES, tmp, GL_UNSIGNED_INT, &terrian.simplifyTriangles[0]);
     }
 }
 
@@ -124,9 +133,9 @@ void OpenGLWindow::wheelEvent(QWheelEvent *event)
     QPoint numDegrees = event->angleDelta() / 8;
 
     if (numDegrees.y() > 0) {
-        ztrans += 0.25f;
+        cameraPos += cameraSpeed * cameraFront;
     } else if (numDegrees.y() < 0) {
-        ztrans -= 0.25f;
+        cameraPos -= cameraSpeed * cameraFront;
     }
     this->update();
     event->accept();

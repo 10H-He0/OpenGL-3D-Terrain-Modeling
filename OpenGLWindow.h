@@ -46,7 +46,7 @@ private:
     QMatrix4x4 projection;
     unsigned int handle[3];
 
-    QVector3D cameraPos   = QVector3D(6.0f, 0.5f, 0.0f);
+    QVector3D cameraPos   = QVector3D(6.0f, 1.0f, 0.0f);
     QVector3D cameraFront = QVector3D(0.0f, 0.0f, -1.0f);
     QVector3D cameraUp    = QVector3D(0.0f, 1.0f, 0.0f);
     float cameraSpeed = static_cast<float>(2.5f * 0.1f);

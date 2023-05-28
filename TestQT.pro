@@ -9,15 +9,21 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    CollapseCost.cpp \
+    Config.cpp \
     OpenGLWindow.cpp \
     QuadTree.cpp \
     QuadTreeNode.cpp \
     Terrian.cpp \
     TriMesh.cpp \
+    VertexSet.cpp \
+    Vertex_f.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    CollapseCost.h \
+    Config.h \
     HalfEdgeStruct.h \
     OpenGLWindow.h \
     QuadTree.h \
@@ -25,6 +31,8 @@ HEADERS += \
     Terrian.h \
     TriMesh.h \
     Utilize.h \
+    VertexSet.h \
+    Vertex_f.h \
     mainwindow.h
 
 FORMS += \

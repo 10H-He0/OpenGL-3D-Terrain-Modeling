@@ -45,10 +45,10 @@ struct EdgeKeyHashFuc
     }
 };
 
-class TriMesh
+class  TriMesh
 {
 public:
-    void TriMesh::read_new(std::vector<Vec3> points, std::vector<std::vector<int>> triVec);
+    void read_new(std::vector<Vec3> points, std::vector<std::vector<int>> triVec);
     Vertex* create_vertex(Vec3 point, int id);
     HalfEdge* create_edge(Vertex* v1, Vertex* v2);
     Face* create_face(Vertex* vertexs[3]);
