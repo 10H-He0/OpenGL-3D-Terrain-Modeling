@@ -17,10 +17,10 @@
    <widget class="OpenGLWindow" name="openGLWidget">
     <property name="geometry">
      <rect>
-      <x>50</x>
+      <x>10</x>
       <y>20</y>
-      <width>691</width>
-      <height>491</height>
+      <width>781</width>
+      <height>501</height>
      </rect>
     </property>
    </widget>
@@ -44,7 +44,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>26</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

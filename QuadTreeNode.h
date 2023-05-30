@@ -1,9 +1,6 @@
 #ifndef QUADTREENODE_H
 #define QUADTREENODE_H
 
-
-
-
 #define HEIGHTMAP_SIZE 4
 
 class QuadTreeNode {

@@ -7,18 +7,18 @@ using namespace std;
 QuadTree::QuadTree(){
     root=0;
 }
-void QuadTree::drawNode(GLint offsetX, GLint offsetY, GLint size, QuadTreeNode *node,GLint (&terrian_pos)[img_height*img_width][3]){
+void QuadTree::drawNode(GLint offsetX, GLint offsetY, GLint size, QuadTreeNode *node, vector<vector<GLint>>terrian_pos, int img_width, int img_height){//GLint (&terrian_pos)[img_height*img_width][3]){
     //printf("%d %d %d\n",size,offsetX,offsetY);
     // 检查节点大小，如果节点大小小于等于地形块的大小，将节点高度值赋给对应的地形块
     if(size<=HEIGHTMAP_SIZE/2){
         //drawHeightmap(size*i+offsetX, size*j+offsetY, size, child);
-        for(int x=0; x<HEIGHTMAP_SIZE; x++){
-            for(int y=0; y<HEIGHTMAP_SIZE; y++){
-                int realx=x+offsetX,realy=y+offsetY;
-                if(realx>=img_height||realy>=img_height||realx<0||realy<0)continue;
-                terrian_pos[img_height*(img_width-1-realy)+realx][1]=node->heightmap[x][y]/25;
-            }
-        }
+//        for(int x=0; x<HEIGHTMAP_SIZE; x++){
+//            for(int y=0; y<HEIGHTMAP_SIZE; y++){
+//                int realx=x+offsetX,realy=y+offsetY;
+//                if(realx>=img_height||realy>=img_height||realx<0||realy<0)continue;
+//                terrian_pos[img_height*(img_width-1-realy)+realx][1]=node->heightmap[x][y]/25;
+//            }
+//        }
     }
     // 如果节点大小大于地形块的大小，递归地绘制子节点
     else{
@@ -31,12 +31,12 @@ void QuadTree::drawNode(GLint offsetX, GLint offsetY, GLint size, QuadTreeNode *
                 if(i==1 && j==1) child = node->brNode;
                 GLfloat tile_x = size*i+offsetX;
                 GLfloat tile_y = size*j+offsetY;
-                drawNode(offsetX+i*size,offsetY+j*size, size/2, child,terrian_pos);
+                drawNode(offsetX+i*size,offsetY+j*size, size/2, child,terrian_pos, img_width, img_height);
             }
         }
     }
 }
-void QuadTree::initialize(QImage img){
+void QuadTree::initialize(QImage img, int img_width, int img_height){
     //printf("%d\n",img.height());
     if(img.height()==15){
         QImage newImage(16, 16, QImage::Format_RGB32);

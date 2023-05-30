@@ -16,7 +16,6 @@ OpenGLWindow::~OpenGLWindow()
 void OpenGLWindow::initializeGL()
 {
     this->initializeOpenGLFunctions();
-
     qDebug() << QStandardPaths::standardLocations(QStandardPaths::AppDataLocation);
     QOpenGLShader *vshader = new QOpenGLShader(QOpenGLShader::Vertex, this);
 
@@ -92,8 +91,8 @@ void OpenGLWindow::paintGL()
     int tmp = 0;
     if (cameraPos.z() <= 5.0f)
     {
-        tmp = img_width * 2 - 1;
-        for (int s=0; s<tmp-1; s++)
+        tmp = terrian.img_width * 2 - 1;
+        for (int s=0; s<(terrian.img_height * 2 - 1) - 1; s++)
         {
             glDrawElements(GL_TRIANGLES, (tmp-1)*6, GL_UNSIGNED_INT, &terrian.triangles[(tmp-1)*6*s]);
         }

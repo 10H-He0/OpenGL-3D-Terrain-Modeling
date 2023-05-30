@@ -15,8 +15,6 @@
 #include <QDebug>
 
 #define PI 3.1415926535
-#define img_width 15
-#define img_height 15
 
 class OpenGLWindow : public QOpenGLWidget, public QOpenGLFunctions
 {

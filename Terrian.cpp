@@ -26,54 +26,31 @@ void Terrian::loadterrian()
 
     QImage heightmap;
     heightmap.load("D:/code/OpenGL-3D-Terrain-Modeling/heightmap.png");
+    img_width = heightmap.width();
+    img_height = heightmap.height();
     //heightmap.load("E:/SSEproject/zzk/heightmap.png");
-    quadTree->initialize(heightmap);
+    quadTree->initialize(heightmap, img_width, img_height);
     //printf("%d\n",quadTree->root->heightmap[0][0]);
+    terrian_index.resize(heightmap.width() * heightmap.height() * 3);
+    terrian_pos.resize(heightmap.width() * heightmap.height());
+    for (int i = 0; i < terrian_pos.size(); i++) terrian_pos[i].resize(3);
     for(int i=0;i<img_width*(img_height - 1);i++)
     {
         terrian_index[index++]=i;
         terrian_index[index++]=i+img_width;
     }
 
-
-
     for(int j=img_width-1;j>=0;j--)
     {
-        for(int i=0;i<=img_width-1;i++)
+        for(int i=0;i<=img_height-1;i++)
         {
+            QColor color = heightmap.pixel(i, j);
             terrian_pos[img_height*(img_width-1-j)+i][0]=i;
-            //            QColor color=heightmap.pixel(i,j);
-            //            terrian_pos[img_height*(img_width-1-j)+i][1]=color.red()/25;
-
-
-
-            //            int height=quadTree->root->heightmap[i][j];
-            //            terrian_pos[img_height*(img_width-1-j)+i][1]=height/25;
-
-            //           printf("%d %d\n",color.red(),height);
+            terrian_pos[img_height*(img_width-1-j)+i][1]=color.red() / 25;
             terrian_pos[img_height*(img_width-1-j)+i][2]=-(img_width-1-j);
         }
     }
-    quadTree->drawNode(0,0,(img_width+1)/2,quadTree->root,terrian_pos);
-
-    //    for(int j=img_width-1;j>=0;j--)
-    //    {
-    //        for(int i=0;i<=img_width-1;i++)
-    //        {
-    //           printf("%3d",terrian_pos[img_height*(img_width-1-j)+i][1]);
-    //        }
-    //        printf("\n");
-    //    }
-
-    //    printf("\n");
-    //    for(int i=0; i<img_width; i++){
-    //        for(int j=0; j<img_width; j++){
-
-    //           printf("%3d ", terrian_pos[i][j][1]);
-    //        }
-    //        printf("\n");
-    //    }
-
+    quadTree->drawNode(0,0,(img_width+1)/2,quadTree->root,terrian_pos, img_width, img_height);
     loop();
     for (int i = 0; i < vertexs.size(); i++)
     {
@@ -87,7 +64,7 @@ void Terrian::loadterrian()
 void Terrian::loop()
 {
     std::vector<Vec3> points;
-    int pos_size = sizeof(terrian_pos)/sizeof(terrian_pos[0]);
+    int pos_size = terrian_pos.size();
 
     for(int i = 0; i < pos_size; ++i)
         points.emplace_back(Vec3(terrian_pos[i][0],terrian_pos[i][1],terrian_pos[i][2]));
@@ -166,14 +143,5 @@ void Terrian::simplify(){
         simplifyTriangles.emplace_back(myset->resarray[i]);
         simplifyTriangles.emplace_back(myset->resarray[i+1]);
         simplifyTriangles.emplace_back(myset->resarray[i+2]);
-    }
-    for (int i = 0; i < myset->out_facecont * 3;i += 3) {
-        cout << myset->resarray[i] << " "<<  myset->resarray[i+1] << " "<< myset->resarray[i+2] << endl;
-    }
-    //   cout<<myset->cntVertex<<endl;
-    for(int i=0;i<myset->cntVertex;i++){
-        if(myset->isDeleted[i]){
-            cout<<myset->group[i].id<<endl;
-        }
     }
 }
