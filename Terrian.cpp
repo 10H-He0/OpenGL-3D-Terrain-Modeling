@@ -28,9 +28,7 @@ void Terrian::loadterrian()
     heightmap.load("D:/code/OpenGL-3D-Terrain-Modeling/heightmap.png");
     img_width = heightmap.width();
     img_height = heightmap.height();
-    //heightmap.load("E:/SSEproject/zzk/heightmap.png");
     quadTree->initialize(heightmap, img_width, img_height);
-    //printf("%d\n",quadTree->root->heightmap[0][0]);
     terrian_index.resize(heightmap.width() * heightmap.height() * 3);
     terrian_pos.resize(heightmap.width() * heightmap.height());
     for (int i = 0; i < terrian_pos.size(); i++) terrian_pos[i].resize(3);

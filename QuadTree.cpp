@@ -102,16 +102,16 @@ void QuadTree::initialize(QImage img, int img_width, int img_height){
     root->generateMatrixFromChildren();
 
     // 输出根节点和子节点的高度图
-    printf("root:\n");
-    root->printHeightmap();
-    printf("tl:\n");
-    root->tlNode ->printHeightmap();
-    printf("tr:\n");
-    root->trNode ->printHeightmap();
-    printf("bl:\n");
-    root->blNode ->printHeightmap();
-    printf("br:\n");
-    root->brNode ->printHeightmap();
+//    printf("root:\n");
+//    root->printHeightmap();
+//    printf("tl:\n");
+//    root->tlNode ->printHeightmap();
+//    printf("tr:\n");
+//    root->trNode ->printHeightmap();
+//    printf("bl:\n");
+//    root->blNode ->printHeightmap();
+//    printf("br:\n");
+//    root->brNode ->printHeightmap();
 }
 
 void QuadTree::createLevel(std::vector< std::vector<QuadTreeNode*> >& lastLevel, int size){

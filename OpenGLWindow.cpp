@@ -16,18 +16,13 @@ OpenGLWindow::~OpenGLWindow()
 void OpenGLWindow::initializeGL()
 {
     this->initializeOpenGLFunctions();
-    qDebug() << QStandardPaths::standardLocations(QStandardPaths::AppDataLocation);
+
     QOpenGLShader *vshader = new QOpenGLShader(QOpenGLShader::Vertex, this);
-
     vshader->compileSourceFile("D:/code/OpenGL-3D-Terrain-Modeling/shader/vert.vert");
-    //vshader->compileSourceFile("D:/gittest/test_c/3d(1)/OpenGL-3D-Terrain-Modeling/shader/vert.vert");
     QOpenGLShader *fshader = new QOpenGLShader(QOpenGLShader::Fragment, this);
-
     fshader->compileSourceFile("D:/code/OpenGL-3D-Terrain-Modeling/shader/frag.frag");
-    //fshader->compileSourceFile("D:/gittest/test_c/3d(1)/OpenGL-3D-Terrain-Modeling/shader/frag.frag");
 
     terrian.loadterrian();
-    //qDebug() << "load end";
     program = new QOpenGLShaderProgram();
     program->addShader(vshader);
     program->addShader(fshader);
@@ -73,7 +68,6 @@ void OpenGLWindow::paintGL()
     model.rotate(yrot, 0.0, 1.0, 0.0);
     model.translate(xtrans, ytrans, ztrans);
     view.setToIdentity();
-    //qDebug() << cameraPos << '\n';
     view.lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 
     xtrans=0;
@@ -119,8 +113,6 @@ void OpenGLWindow::mouseMoveEvent(QMouseEvent *event)
 
         if (diff.x() > 0) yrot = 30.0f * PI / 180;
         else yrot = -30.0f * PI / 180;
-        //        if (diff.y() > 0) xrot = 30.f * PI / 180;
-        //        else xrot = -30.0f * PI / 180;
         mousePos = newPos;
         this->update();
     }
